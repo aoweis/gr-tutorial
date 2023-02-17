@@ -330,7 +330,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 75]
+    coordinate: [16, 196.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_0
@@ -419,7 +419,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 203]
+    coordinate: [288, 236.0]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0
@@ -544,7 +544,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 75]
+    coordinate: [136, 84.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
