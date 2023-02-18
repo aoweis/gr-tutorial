@@ -87,7 +87,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 76.0]
+    coordinate: [352, 76.0]
     rotation: 0
     state: enabled
 - name: phase_bw
@@ -140,7 +140,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 76.0]
+    coordinate: [232, 76.0]
     rotation: 0
     state: true
 - name: rrc_taps
@@ -293,7 +293,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 100.0]
+    coordinate: [72, 108.0]
     rotation: 0
     state: true
 - name: blocks_char_to_float_0
@@ -327,7 +327,41 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 572.0]
+    coordinate: [376, 620.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'True'
+    comment: ''
+    file: /home/ahmad/gr-tutorial/examples/tutorial7/received
+    type: float
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 676.0]
+    rotation: 0
+    state: true
+- name: blocks_pack_k_bits_bb_0
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 556.0]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0
@@ -343,7 +377,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 564.0]
+    coordinate: [104, 596.0]
     rotation: 0
     state: enabled
 - name: controls
@@ -428,7 +462,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 452.0]
+    coordinate: [64, 396.0]
     rotation: 180
     state: disabled
 - name: digital_linear_equalizer_0
@@ -580,7 +614,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1084.0, 176]
+    coordinate: [1076.0, 256]
     rotation: 90
     state: enabled
 - name: qtgui_sink_x_0
@@ -803,7 +837,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 572.0]
+    coordinate: [624, 580.0]
     rotation: 0
     state: enabled
 - name: received
@@ -845,8 +879,10 @@ connections:
 - [bladeRF_source_0, '0', digital_pfb_clock_sync_xxx_0, '0']
 - [bladeRF_source_0, '0', qtgui_sink_x_0, '0']
 - [blocks_char_to_float_0, '0', qtgui_time_sink_x_0, '0']
+- [blocks_char_to_float_0_0, '0', blocks_file_sink_0, '0']
 - [blocks_char_to_float_0_0, '0', qtgui_time_sink_x_0_0, '0']
-- [blocks_unpack_k_bits_bb_0, '0', blocks_char_to_float_0_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', blocks_char_to_float_0_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [digital_constellation_decoder_cb_0, '0', blocks_char_to_float_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_map_bb_0, '0']
 - [digital_costas_loop_cc_0, '0', digital_constellation_decoder_cb_0, '0']
