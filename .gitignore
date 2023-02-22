@@ -1,2 +1,4 @@
 *.pyc
 build/
+*.32fc
+examples/tutorial7/tx_chunks2symbols.32fc

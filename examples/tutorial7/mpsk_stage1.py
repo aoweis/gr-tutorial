@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Mpsk Stage1
-# GNU Radio version: 3.10.5.0
+# GNU Radio version: 3.10.5.1
 
 from packaging.version import Version as StrictVersion
 
@@ -87,6 +87,7 @@ class mpsk_stage1(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
             200, #size
             samp_rate, #samp_rate
@@ -289,9 +290,9 @@ class mpsk_stage1(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_rrc_taps(self):
         return self.rrc_taps
