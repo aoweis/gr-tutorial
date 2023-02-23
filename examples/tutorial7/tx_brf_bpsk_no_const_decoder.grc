@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '4'
+    value: '2'
   states:
     bus_sink: false
     bus_source: false
@@ -85,7 +85,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2500e6
+    value: 1000e6
   states:
     bus_sink: false
     bus_source: false
@@ -159,7 +159,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: int(2e6 / 16)
+    value: 50e3
   states:
     bus_sink: false
     bus_source: false
@@ -206,7 +206,7 @@ blocks:
     alias: ''
     bias_tee0: 'True'
     bias_tee1: 'False'
-    bw: '2000000'
+    bw: rf_samp_rate
     comment: ''
     dac: '10000'
     dc_calibration: LPF_TUNING
@@ -284,7 +284,7 @@ blocks:
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: 20*[0,]+[1,]+[0]
+    vector: '[1,2,3,4,5,6]'
     vlen: '1'
   states:
     bus_sink: false
@@ -305,7 +305,7 @@ blocks:
     minoutbuf: '0'
     num_ports: '1'
     out_type: complex
-    symbol_table: '[0.707+0.707j, -0.707+0.707j, -0.707-0.707j, 0.707-0.707j]'
+    symbol_table: '[-1, 1]'
   states:
     bus_sink: false
     bus_source: false
