@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Mpsk Stage6
+# Title: Stage6 V1
 # GNU Radio version: 3.10.5.1
 
 from packaging.version import Version as StrictVersion
@@ -42,12 +42,12 @@ from PyQt5 import QtCore
 
 from gnuradio import qtgui
 
-class mpsk_stage6(gr.top_block, Qt.QWidget):
+class stage6_v1(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Mpsk Stage6", catch_exceptions=True)
+        gr.top_block.__init__(self, "Stage6 V1", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Mpsk Stage6")
+        self.setWindowTitle("Stage6 V1")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -65,7 +65,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6")
+        self.settings = Qt.QSettings("GNU Radio", "stage6_v1")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -79,7 +79,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.qpsk = qpsk = digital.constellation_rect([0.707+0.707j, -0.707+0.707j, -0.707-0.707j, 0.707-0.707j], [0, 1, 2, 3],
+        self.qpsk = qpsk = digital.constellation_rect([-1,1], [0, 1],
         4, 2, 2, 1, 1).base()
         self.nfilts = nfilts = 32
         self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( qpsk, .0001, 1).base()
@@ -94,7 +94,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.excess_bw = excess_bw = 0.35
         self.eq_gain = eq_gain = 0.01
         self.delay = delay = 0
-        self.arity = arity = 4
+        self.arity = arity = 2
 
         ##################################################
         # Blocks
@@ -391,7 +391,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "mpsk_stage6")
+        self.settings = Qt.QSettings("GNU Radio", "stage6_v1")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -510,7 +510,7 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=mpsk_stage6, options=None):
+def main(top_block_cls=stage6_v1, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
