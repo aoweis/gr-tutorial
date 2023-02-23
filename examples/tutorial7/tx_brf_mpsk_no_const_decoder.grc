@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
+    title: tx_brf_mpsk_no_const_demod
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -81,69 +81,6 @@ blocks:
     coordinate: [872, 148.0]
     rotation: 0
     state: true
-- name: delay
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 1,0,1,1
-    label: Delay
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '1'
-    stop: '200'
-    value: '1'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1440, 1028.0]
-    rotation: 0
-    state: enabled
-- name: eq_gain
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@1: 0,1,1,1'
-    label: 'Equalizer: rate'
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0.0'
-    step: '0.001'
-    stop: '0.1'
-    value: '0.01'
-    widget: slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1272, 468.0]
-    rotation: 0
-    state: enabled
-- name: freq_offset
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@0: 0,1,1,1'
-    label: Frequency Offset
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '-0.1'
-    step: '0.001'
-    stop: '0.1'
-    value: '0'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1384, 36.0]
-    rotation: 0
-    state: enabled
 - name: nfilts
   id: variable
   parameters:
@@ -154,68 +91,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [784, 20.0]
-    rotation: 0
-    state: enabled
-- name: noise_volt
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@0: 0,0,1,1'
-    label: Noise Voltage
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '0.01'
-    stop: '1'
-    value: '0.0001'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1216, 4.0]
-    rotation: 0
-    state: enabled
-- name: phase_bw
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@1: 0,2,1,1'
-    label: 'Phase: Bandwidth'
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0.0'
-    step: '0.01'
-    stop: '1.0'
-    value: 6.28/100.0
-    widget: slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1400, 468.0]
-    rotation: 0
-    state: enabled
-- name: qpsk
-  id: variable_constellation_rect
-  parameters:
-    comment: ''
-    const_points: '[0.707+0.707j, -0.707+0.707j, -0.707-0.707j, 0.707-0.707j]'
-    imag_sect: '2'
-    precision: '8'
-    real_sect: '2'
-    rot_sym: '4'
-    soft_dec_lut: None
-    sym_map: '[0, 1, 2, 3]'
-    w_imag_sect: '1'
-    w_real_sect: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1408, 868.0]
     rotation: 0
     state: enabled
 - name: rf_freq
@@ -230,11 +105,44 @@ blocks:
     coordinate: [296, 92.0]
     rotation: 0
     state: true
+- name: rf_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: RF Gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '60'
+    value: '60'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1208, 128.0]
+    rotation: 0
+    state: true
+- name: rf_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate * chunks_per_byte * rrc_interpolation
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 48.0]
+    rotation: 0
+    state: true
 - name: rrc_interpolation
   id: variable
   parameters:
     comment: ''
-    value: '4'
+    value: '8'
   states:
     bus_sink: false
     bus_source: false
@@ -247,10 +155,10 @@ blocks:
   parameters:
     alpha: '0.35'
     comment: ''
-    gain: '1.0'
+    gain: '8'
     ntaps: 11*sps
-    samp_rate: samp_rate * 4
-    sym_rate: samp_rate * 4 / sps
+    samp_rate: rf_samp_rate
+    sym_rate: samp_rate * chunks_per_byte
     value: ''
   states:
     bus_sink: false
@@ -307,65 +215,6 @@ blocks:
     coordinate: [288, 20.0]
     rotation: 0
     state: enabled
-- name: time_offset
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@0: 0,2,1,1'
-    label: Timing Offset
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0.999'
-    step: '0.0001'
-    stop: '1.001'
-    value: '1.00'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1416, 340.0]
-    rotation: 0
-    state: enabled
-- name: timing_loop_bw
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: 'controls@1: 0,0,1,1'
-    label: 'Time: BW'
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0.0'
-    step: '0.01'
-    stop: '0.2'
-    value: 6.28/100.0
-    widget: slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1432, 612.0]
-    rotation: 0
-    state: enabled
-- name: variable_adaptive_algorithm_0
-  id: variable_adaptive_algorithm
-  parameters:
-    comment: ''
-    cons: qpsk
-    delta: '10.0'
-    ffactor: '0.99'
-    modulus: '4'
-    step_size: 100e-6
-    type: cma
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1440, 764.0]
-    rotation: 0
-    state: true
 - name: analog_random_source_x_0
   id: analog_random_source_x
   parameters:
@@ -385,7 +234,7 @@ blocks:
     bus_structure: null
     coordinate: [72, 116.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: bladeRF_sink_0
   id: bladeRF_sink
   parameters:
@@ -401,7 +250,7 @@ blocks:
     fpga_image: ''
     fpga_reload: 'False'
     freq: rf_freq
-    gain0: '10'
+    gain0: rf_gain
     gain1: '10'
     if_gain0: '20'
     if_gain1: '20'
@@ -413,7 +262,7 @@ blocks:
     nchan: '1'
     out_clk: 'False'
     ref_clk: 10e6
-    sample_rate: samp_rate * chunks_per_byte * rrc_interpolation
+    sample_rate: rf_samp_rate
     sampling: internal
     show_pmic: 'False'
     smb: '0'
@@ -479,41 +328,7 @@ blocks:
     bus_structure: null
     coordinate: [32, 212.0]
     rotation: 0
-    state: enabled
-- name: controls
-  id: qtgui_tab_widget
-  parameters:
-    alias: ''
-    comment: ''
-    gui_hint: 0,0,1,2
-    label0: Channel
-    label1: Receiver
-    label10: Tab 10
-    label11: Tab 11
-    label12: Tab 12
-    label13: Tab 13
-    label14: Tab 14
-    label15: Tab 15
-    label16: Tab 16
-    label17: Tab 17
-    label18: Tab 18
-    label19: Tab 19
-    label2: Tab 2
-    label3: Tab 3
-    label4: Tab 4
-    label5: Tab 5
-    label6: Tab 6
-    label7: Tab 7
-    label8: Tab 8
-    label9: Tab 9
-    num_tabs: '2'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1424, 220.0]
-    rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_chunks_to_symbols_xx_0
   id: digital_chunks_to_symbols_xx
   parameters:
@@ -556,8 +371,8 @@ blocks:
 
       samp_rate * chunks_per_byte * Interpolation
 
-      500K         * 4                        * 4'
-    interp: '4'
+      500K         * 4                        * 8'
+    interp: rrc_interpolation
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
@@ -614,7 +429,7 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    note: 16 samp_rate
+    note: 32 samp_rate
   states:
     bus_sink: false
     bus_source: false
@@ -732,7 +547,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: rf_samp_rate
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -851,7 +666,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: '1024'
-    srate: samp_rate
+    srate: rf_samp_rate
     stemplot: 'False'
     style1: '1'
     style10: '1'
