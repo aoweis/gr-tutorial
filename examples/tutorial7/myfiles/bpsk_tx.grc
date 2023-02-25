@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: stage6_v2
+    id: bpsk_tx
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -93,12 +93,12 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1000e6
+    value: 2500e6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 12.0]
+    coordinate: [760, 12.0]
     rotation: 0
     state: enabled
 - name: rf_gain

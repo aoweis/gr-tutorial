@@ -850,7 +850,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 340.0]
+    coordinate: [680, 348.0]
     rotation: 0
     state: true
 - name: note_0_0_0_0
