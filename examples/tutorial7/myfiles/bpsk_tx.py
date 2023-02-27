@@ -25,7 +25,6 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import blocks
-import numpy
 from gnuradio import digital
 from gnuradio import gr
 from gnuradio.fft import window
@@ -80,12 +79,11 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.samp_rate = samp_rate = 31250
+        self.samp_rate = samp_rate = 150e3
         self.bytes_per_chunk = bytes_per_chunk = 8
-        self.taps = taps = [1.0, 0.25-0.25j, 0.50 + 0.10j, -0.3 + 0.2j]
         self.rf_samp_rate = rf_samp_rate = samp_rate * bytes_per_chunk * sps
-        self.rf_gain = rf_gain = 0
-        self.rf_freq = rf_freq = 2500e6
+        self.rf_gain = rf_gain = 50
+        self.rf_freq = rf_freq = 2480e6
         self.excess_bw = excess_bw = 0.35
         self.bpsk = bpsk = digital.constellation_rect([-1,1], [0, 1],
         4, 2, 2, 1, 1).base()
@@ -95,7 +93,7 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self._rf_gain_range = Range(0, 100, 1, 0, 200)
+        self._rf_gain_range = Range(0, 100, 1, 50, 200)
         self._rf_gain_win = RangeWidget(self._rf_gain_range, self.set_rf_gain, "RF Gain", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._rf_gain_win)
         self.qtgui_time_sink_x_1 = qtgui.time_sink_c(
@@ -241,6 +239,8 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
+        self.blocks_vector_source_x_0 = blocks.vector_source_b([0x55, 0x01,0xfe], True, 1, [])
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(.25)
         self.bladeRF_sink_0 = bladeRF.sink(
             args="numchan=" + str(1)
                  + ",metadata=" + 'False'
@@ -248,7 +248,7 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
                  + ",verbosity=" + 'debug'
                  + ",fpga=" + str('')
                  + ",fpga-reload=" + 'False'
-                 + ",use_ref_clk=" + 'True'
+                 + ",use_ref_clk=" + 'False'
                  + ",ref_clk=" + str(int(10e6))
                  + ",in_clk=" + 'ONBOARD'
                  + ",out_clk=" + str(False)
@@ -273,17 +273,17 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
         )
         self.bladeRF_sink_0.set_sample_rate(rf_samp_rate)
         self.bladeRF_sink_0.set_center_freq(rf_freq,0)
-        self.bladeRF_sink_0.set_bandwidth(1e6,0)
+        self.bladeRF_sink_0.set_bandwidth(rf_samp_rate,0)
         self.bladeRF_sink_0.set_gain(rf_gain, 0)
         self.bladeRF_sink_0.set_if_gain(20, 0)
-        self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 1000))), True)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.bladeRF_sink_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.bladeRF_sink_0, 0))
+        self.connect((self.blocks_vector_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_time_sink_x_1, 0))
@@ -318,18 +318,13 @@ class bpsk_tx(gr.top_block, Qt.QWidget):
         self.bytes_per_chunk = bytes_per_chunk
         self.set_rf_samp_rate(self.samp_rate * self.bytes_per_chunk * self.sps)
 
-    def get_taps(self):
-        return self.taps
-
-    def set_taps(self, taps):
-        self.taps = taps
-
     def get_rf_samp_rate(self):
         return self.rf_samp_rate
 
     def set_rf_samp_rate(self, rf_samp_rate):
         self.rf_samp_rate = rf_samp_rate
         self.bladeRF_sink_0.set_sample_rate(self.rf_samp_rate)
+        self.bladeRF_sink_0.set_bandwidth(self.rf_samp_rate, 0)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.rf_samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.rf_samp_rate)
 
