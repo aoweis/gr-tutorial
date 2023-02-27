@@ -199,7 +199,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 75]
+    coordinate: [8, 108.0]
     rotation: 0
     state: disabled
 - name: bladeRF_sink_0
