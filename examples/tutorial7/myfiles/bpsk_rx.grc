@@ -141,7 +141,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [632, 364.0]
+    coordinate: [544, 76.0]
     rotation: 0
     state: enabled
 - name: noise_volt
@@ -207,18 +207,6 @@ blocks:
     rotation: 0
     state: enabled
 - name: rf_freq
-  id: variable
-  parameters:
-    comment: ''
-    value: 2500e6
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [328, 76.0]
-    rotation: 0
-    state: disabled
-- name: rf_freq
   id: variable_qtgui_range
   parameters:
     comment: ''
@@ -236,7 +224,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [56, 532.0]
+    coordinate: [1104, 20.0]
     rotation: 0
     state: true
 - name: rf_samp_rate
@@ -248,7 +236,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 76.0]
+    coordinate: [480, 12.0]
     rotation: 0
     state: enabled
 - name: rrc_taps
@@ -260,7 +248,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 348.0]
+    coordinate: [376, 76.0]
     rotation: 0
     state: enabled
 - name: rx_gain
@@ -288,7 +276,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '31250'
+    value: 150e3
   states:
     bus_sink: false
     bus_source: false
@@ -312,24 +300,12 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '[1.0 + 0.0j, ]'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [484, 10]
-    rotation: 0
-    state: disabled
-- name: taps
-  id: variable
-  parameters:
-    comment: ''
     value: '[1.0, 0.25-0.25j, 0.50 + 0.10j, -0.3 + 0.2j]'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 10]
+    coordinate: [584, 12.0]
     rotation: 0
     state: enabled
 - name: time_offset
@@ -391,6 +367,28 @@ blocks:
     coordinate: [1376, 128.0]
     rotation: 0
     state: true
+- name: analog_agc3_xx_0
+  id: analog_agc3_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    attack_rate: 1e-3
+    comment: ''
+    decay_rate: 1e-4
+    gain: '1.0'
+    iir_update_decim: '1'
+    max_gain: '65536'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    reference: '1.0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 140.0]
+    rotation: 0
+    state: true
 - name: bladeRF_source_0
   id: bladeRF_source
   parameters:
@@ -398,7 +396,7 @@ blocks:
     alias: ''
     bias_tee0: 'True'
     bias_tee1: 'False'
-    bw: 1e6
+    bw: rf_samp_rate
     comment: ''
     dac: '10000'
     dc_calibration: LPF_TUNING
@@ -443,7 +441,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 108.0]
+    coordinate: [0, 124.0]
     rotation: 0
     state: true
 - name: blocks_char_to_float_0
@@ -494,7 +492,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 428.0]
+    coordinate: [40, 436.0]
     rotation: 0
     state: true
 - name: blocks_keep_one_in_n_0
@@ -514,23 +512,38 @@ blocks:
     bus_structure: null
     coordinate: [656, 448.0]
     rotation: 180
-    state: true
-- name: blocks_multiply_const_vxx_0
-  id: blocks_multiply_const_vxx
+    state: disabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    const: rx_gain+0j
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 704.0]
+    rotation: 0
+    state: true
+- name: blocks_probe_rate_0
+  id: blocks_probe_rate
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '0.15'
+    comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    type: complex
+    mintime: '500.0'
+    type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 148.0]
+    coordinate: [464, 660.0]
     rotation: 0
     state: true
 - name: blocks_unpack_k_bits_bb_0
@@ -637,7 +650,7 @@ blocks:
     bus_structure: null
     coordinate: [744, 48.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: digital_map_bb_0
   id: digital_map_bb
   parameters:
@@ -847,7 +860,36 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 356.0]
+    coordinate: [288, 372.0]
+    rotation: 0
+    state: true
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: rf_samp_rate
+    comment: ''
+    fc: rf_freq
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"blade Out"'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'True'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 316.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -1044,103 +1086,6 @@ blocks:
     coordinate: [752, 596.0]
     rotation: 0
     state: enabled
-- name: qtgui_time_sink_x_1
-  id: qtgui_time_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    axislabels: 'True'
-    color1: blue
-    color10: dark blue
-    color2: red
-    color3: green
-    color4: black
-    color5: cyan
-    color6: magenta
-    color7: yellow
-    color8: dark red
-    color9: dark green
-    comment: ''
-    ctrlpanel: 'False'
-    entags: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label1: Signal 1
-    label10: Signal 10
-    label2: Signal 2
-    label3: Signal 3
-    label4: Signal 4
-    label5: Signal 5
-    label6: Signal 6
-    label7: Signal 7
-    label8: Signal 8
-    label9: Signal 9
-    legend: 'True'
-    marker1: '-1'
-    marker10: '-1'
-    marker2: '-1'
-    marker3: '-1'
-    marker4: '-1'
-    marker5: '-1'
-    marker6: '-1'
-    marker7: '-1'
-    marker8: '-1'
-    marker9: '-1'
-    name: '"after freq corr"'
-    nconnections: '1'
-    size: '1024'
-    srate: rf_samp_rate
-    stemplot: 'False'
-    style1: '1'
-    style10: '1'
-    style2: '1'
-    style3: '1'
-    style4: '1'
-    style5: '1'
-    style6: '1'
-    style7: '1'
-    style8: '1'
-    style9: '1'
-    tr_chan: '0'
-    tr_delay: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_slope: qtgui.TRIG_SLOPE_POS
-    tr_tag: '""'
-    type: complex
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    ylabel: Amplitude
-    ymax: '1'
-    ymin: '-1'
-    yunit: '""'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1288, 316.0]
-    rotation: 0
-    state: disabled
 - name: qtgui_time_sink_x_1_0
   id: qtgui_time_sink_x
   parameters:
@@ -1235,7 +1180,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 252.0]
+    coordinate: [272, 276.0]
     rotation: 0
     state: true
 - name: received
@@ -1274,23 +1219,25 @@ blocks:
     state: enabled
 
 connections:
+- [analog_agc3_xx_0, '0', digital_pfb_clock_sync_xxx_0, '0']
+- [analog_agc3_xx_0, '0', qtgui_freq_sink_x_0, '0']
+- [analog_agc3_xx_0, '0', qtgui_time_sink_x_1_0, '0']
 - [bladeRF_source_0, '0', blocks_freqshift_cc_0, '0']
+- [bladeRF_source_0, '0', qtgui_sink_x_0, '0']
 - [blocks_char_to_float_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_char_to_float_0_0, '0', qtgui_time_sink_x_0_0, '0']
-- [blocks_freqshift_cc_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_freqshift_cc_0, '0', analog_agc3_xx_0, '0']
 - [blocks_keep_one_in_n_0, '0', digital_constellation_decoder_cb_0, '0']
-- [blocks_multiply_const_vxx_0, '0', digital_pfb_clock_sync_xxx_0, '0']
-- [blocks_multiply_const_vxx_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_multiply_const_vxx_0, '0', qtgui_time_sink_x_1_0, '0']
+- [blocks_probe_rate_0, rate, blocks_message_debug_0, print]
 - [blocks_unpack_k_bits_bb_0, '0', blocks_char_to_float_0_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', blocks_probe_rate_0, '0']
 - [digital_constellation_decoder_cb_0, '0', blocks_char_to_float_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_map_bb_0, '0']
 - [digital_costas_loop_cc_0, '0', blocks_keep_one_in_n_0, '0']
+- [digital_costas_loop_cc_0, '0', digital_constellation_decoder_cb_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0, '0']
-- [digital_costas_loop_cc_0, '0', qtgui_time_sink_x_1, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
-- [digital_pfb_clock_sync_xxx_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_pfb_clock_sync_xxx_0, '0', digital_linear_equalizer_0, '0']
 
 metadata:

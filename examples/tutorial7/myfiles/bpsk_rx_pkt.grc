@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: bpsk_rx
+    id: bpsk_rx_pkt
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -132,6 +132,30 @@ blocks:
     coordinate: [1080, 420.0]
     rotation: 0
     state: enabled
+- name: hdr_format
+  id: variable
+  parameters:
+    comment: header_format_crc
+    value: digital.header_format_crc(len_key, num_key)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1496, 252.0]
+    rotation: 0
+    state: enabled
+- name: len_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"packet_len"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 252.0]
+    rotation: 0
+    state: enabled
 - name: nfilts
   id: variable
   parameters:
@@ -163,6 +187,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [952, 420.0]
+    rotation: 0
+    state: enabled
+- name: num_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"packet_num"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1384, 252.0]
     rotation: 0
     state: enabled
 - name: phase_bw
@@ -475,7 +511,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 596.0]
+    coordinate: [1048, 748.0]
     rotation: 0
     state: enabled
 - name: blocks_freqshift_cc_0
@@ -495,24 +531,6 @@ blocks:
     coordinate: [40, 436.0]
     rotation: 0
     state: true
-- name: blocks_keep_one_in_n_0
-  id: blocks_keep_one_in_n
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    n: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [656, 448.0]
-    rotation: 180
-    state: disabled
 - name: blocks_message_debug_0
   id: blocks_message_debug
   parameters:
@@ -524,7 +542,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 704.0]
+    coordinate: [1304, 856.0]
     rotation: 0
     state: true
 - name: blocks_probe_rate_0
@@ -543,7 +561,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 660.0]
+    coordinate: [960, 860.0]
+    rotation: 0
+    state: true
+- name: blocks_repack_bits_bb_1_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '1'
+    l: '8'
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [584, 756.0]
     rotation: 0
     state: true
 - name: blocks_unpack_k_bits_bb_0
@@ -559,7 +597,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 596.0]
+    coordinate: [144, 604.0]
     rotation: 0
     state: enabled
 - name: controls
@@ -630,6 +668,50 @@ blocks:
     coordinate: [736.0, 184]
     rotation: 270
     state: enabled
+- name: digital_crc32_bb_0_0
+  id: digital_crc32_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    check: 'True'
+    comment: ''
+    lengthtagname: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packed: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 748.0]
+    rotation: 0
+    state: true
+- name: digital_header_payload_demux_0
+  id: digital_header_payload_demux
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    guard_interval: '0'
+    header_len: '32'
+    header_padding: '0'
+    items_per_symbol: '1'
+    length_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    output_symbols: 'False'
+    samp_rate: int(samp_rate)
+    special_tags: ()
+    timing_tag_key: '"burst"'
+    trigger_tag_key: '"packet_len"'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 684.0]
+    rotation: 0
+    state: true
 - name: digital_linear_equalizer_0
   id: digital_linear_equalizer
   parameters:
@@ -689,6 +771,22 @@ blocks:
     bus_structure: null
     coordinate: [408, 172.0]
     rotation: 0
+    state: enabled
+- name: digital_protocol_parser_b_0
+  id: digital_protocol_parser_b
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    format: hdr_format
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 876.0]
+    rotation: 180
     state: enabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
@@ -1083,7 +1181,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 596.0]
+    coordinate: [1248, 748.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0
@@ -1227,18 +1325,21 @@ connections:
 - [blocks_char_to_float_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_char_to_float_0_0, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_freqshift_cc_0, '0', analog_agc3_xx_0, '0']
-- [blocks_keep_one_in_n_0, '0', digital_constellation_decoder_cb_0, '0']
 - [blocks_probe_rate_0, rate, blocks_message_debug_0, print]
-- [blocks_unpack_k_bits_bb_0, '0', blocks_char_to_float_0_0, '0']
-- [blocks_unpack_k_bits_bb_0, '0', blocks_probe_rate_0, '0']
+- [blocks_repack_bits_bb_1_0, '0', digital_crc32_bb_0_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', digital_header_payload_demux_0, '0']
 - [digital_constellation_decoder_cb_0, '0', blocks_char_to_float_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_map_bb_0, '0']
-- [digital_costas_loop_cc_0, '0', blocks_keep_one_in_n_0, '0']
 - [digital_costas_loop_cc_0, '0', digital_constellation_decoder_cb_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0, '0']
+- [digital_crc32_bb_0_0, '0', blocks_char_to_float_0_0, '0']
+- [digital_crc32_bb_0_0, '0', blocks_probe_rate_0, '0']
+- [digital_header_payload_demux_0, '0', digital_protocol_parser_b_0, '0']
+- [digital_header_payload_demux_0, '1', blocks_repack_bits_bb_1_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [digital_pfb_clock_sync_xxx_0, '0', digital_linear_equalizer_0, '0']
+- [digital_protocol_parser_b_0, info, digital_header_payload_demux_0, header_data]
 
 metadata:
   file_format: 1
