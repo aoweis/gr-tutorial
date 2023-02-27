@@ -279,7 +279,7 @@ class sim_bpsk(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             500, #size
             samp_rate, #samp_rate
-            '', #name
+            'After freq corr', #name
             1, #number of inputs
             None # parent
         )
@@ -401,7 +401,7 @@ class sim_bpsk(gr.top_block, Qt.QWidget):
             taps=taps,
             noise_seed=0,
             block_tags=False)
-        self.blocks_vector_source_x_0 = blocks.vector_source_b([114], True, 1, [])
+        self.blocks_vector_source_x_0 = blocks.vector_source_b(20*[0,]+[1,], True, 1, [])
         self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(8)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(1)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)

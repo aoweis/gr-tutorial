@@ -465,7 +465,7 @@ blocks:
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: '[114]'
+    vector: 20*[0,]+[1,]
     vlen: '1'
   states:
     bus_sink: false
@@ -790,7 +790,7 @@ blocks:
     marker7: '-1'
     marker8: '-1'
     marker9: '-1'
-    name: ''
+    name: After freq corr
     nconnections: '1'
     size: '500'
     srate: samp_rate

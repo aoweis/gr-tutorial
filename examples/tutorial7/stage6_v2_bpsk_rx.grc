@@ -210,7 +210,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1000e6
+    value: 2500e6
   states:
     bus_sink: false
     bus_source: false
@@ -618,7 +618,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 172.0]
+    coordinate: [384, 156.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
